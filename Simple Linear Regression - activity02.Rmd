@@ -3,8 +3,8 @@ title: "Simple Linear Regression - activity02"
 author: "Paul Warutumo"
 date: "2024-01-25"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -17,6 +17,8 @@ knitr::opts_chunk$set(echo = TRUE)
   library(tidyverse)
   library(tidymodels)
   library(readr)
+  library(dplyr)
+  library(skimr)
 
 
 ```
@@ -24,9 +26,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Loading the data
 
 ```{r}
-
 hfi <- read_csv("hfi.csv")
-hfi
 ```
 
 #1. The dataset has 1458 rows and 123 columns
@@ -62,6 +62,58 @@ ggplot(hfi_2016, aes(x = pf_expression_control)) +
   labs(title = "Distribution of Political Pressures on Media Content",
        x = "Political Pressures and Controls",
        y = "Frequency")
+
+```
+
+### Summarry Statistics
+
+```{r}
+# Load necessary libraries
+library(dplyr)
+library(skimr)
+
+# Summary statistics for personal freedom scores (pf_score)
+summary_pf_score <- hfi_2016 %>%
+  summarize(
+    mean = mean(pf_score),
+    median = median(pf_score),
+    sd = sd(pf_score),
+    min = min(pf_score),
+    max = max(pf_score)
+  )
+
+# Detailed summary statistics for personal freedom scores
+detailed_summary_pf_score <- skim(hfi_2016$pf_score)
+
+# Summary statistics for political pressures and controls on media content (pf_expression_control)
+summary_pf_expression_control <- hfi_2016 %>%
+  summarize(
+    mean = mean(pf_expression_control),
+    median = median(pf_expression_control),
+    sd = sd(pf_expression_control),
+    min = min(pf_expression_control),
+    max = max(pf_expression_control)
+  )
+
+# Detailed summary statistics for political pressures and controls on media content
+detailed_summary_pf_expression_control <- skim(hfi_2016$pf_expression_control)
+
+# Correlation between pf_score and pf_expression_control
+correlation <- cor(hfi_2016$pf_score, hfi_2016$pf_expression_control)
+
+# Print the results
+print("Summary Statistics for Personal Freedom Scores:")
+print(summary_pf_score)
+cat("\nDetailed Summary Statistics for Personal Freedom Scores:\n")
+print(detailed_summary_pf_score)
+
+cat("\nSummary Statistics for Political Pressures on Media Content:")
+print(summary_pf_expression_control)
+cat("\nDetailed Summary Statistics for Political Pressures on Media Content:\n")
+print(detailed_summary_pf_expression_control)
+
+cat("\nCorrelation between pf_score and pf_expression_control:")
+print(correlation)
 
 ```
 
