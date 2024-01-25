@@ -1,0 +1,67 @@
+---
+title: "Simple Linear Regression - activity02"
+author: "Paul Warutumo"
+date: "2024-01-25"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Installing the libraries
+
+```{r library-example, eval = FALSE}
+  library(tidyverse)
+  library(tidymodels)
+  library(readr)
+
+
+```
+
+## Loading the data
+
+```{r}
+
+hfi <- read_csv("hfi.csv")
+hfi
+```
+
+#1. The dataset has 1458 rows and 123 columns
+# Each row represent year iso-code and country
+
+## Filtering the Year 2016 dataset 
+```{r hfi-2016}
+
+hfi_2016 <- hfi %>% filter(year == 2016)
+
+hfi_2016
+```
+
+### Research Question
+Predicting a country's personal freedom score in 2016
+
+We shall get this by exploring the relationship between the personal freedom score, 'pf_score', and the political pressure and controls on media content index,'pf_expression_control'
+
+
+```{r}
+# Use ggplot2 for creating histograms
+
+# Distribution of personal freedom scores (pf_score)
+ggplot(hfi_2016, aes(x = pf_score)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Distribution of Personal Freedom Scores",
+       x = "Personal Freedom Scores",
+       y = "Frequency")
+
+# Distribution of political pressures and controls on media content (pf_expression_control)
+ggplot(hfi_2016, aes(x = pf_expression_control)) +
+  geom_histogram(binwidth = 1, fill = "green", color = "black", alpha = 0.7) +
+  labs(title = "Distribution of Political Pressures on Media Content",
+       x = "Political Pressures and Controls",
+       y = "Frequency")
+
+```
+
